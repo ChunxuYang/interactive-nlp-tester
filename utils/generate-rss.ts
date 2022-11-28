@@ -31,7 +31,7 @@ export const generateRssFeed = async () => {
 
     feed.addItem({
       title,
-      id: crypto.randomUUID(),
+      id: randomUUID(),
       link: "some link",
       description,
       author: [author],
