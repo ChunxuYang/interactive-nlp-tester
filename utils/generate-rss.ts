@@ -28,6 +28,7 @@ export const generateRssFeed = async () => {
     const content = fs.readFileSync(`public/blogs/${file}`, "utf8");
     const [title, ...rest] = content.split("\n");
     const description = rest[0].concat("...");
+    const parsedContent = rest.filter((r) => r.length >= 0).join("<br>");
 
     feed.addItem({
       title,
@@ -36,7 +37,7 @@ export const generateRssFeed = async () => {
       description,
       author: [author],
       date,
-      content,
+      content: parsedContent,
     });
 
     fs.writeFileSync("public/rss.xml", feed.rss2());
