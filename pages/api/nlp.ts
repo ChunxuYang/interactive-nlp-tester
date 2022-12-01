@@ -1,5 +1,33 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import Cors from "cors";
+
+// Initializing the cors middleware
+const cors = Cors({
+  methods: ["GET", "POST", "HEAD"],
+  // allow all origins
+  origin: "*",
+
+  // allow all headers
+  allowedHeaders: "*",
+});
+
+function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: Function
+) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
+
 export type NLPRequest = {
   text: string;
 };
@@ -13,10 +41,12 @@ export type NLPResponse = {
   }[];
 };
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<NLPResponse>
 ) {
+  await runMiddleware(req, res, cors);
+
   const { text } = req.body as NLPRequest;
 
   if (!text || typeof text !== "string" || text.length === 0) {

@@ -12,6 +12,7 @@
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
+    "cors": "^2.8.5",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "feed": "^4.2.2",
@@ -21,6 +22,7 @@
     "typescript": "4.9.3"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4"
