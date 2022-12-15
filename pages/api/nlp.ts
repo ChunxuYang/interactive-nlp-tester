@@ -33,8 +33,8 @@ export type NLPRequest = {
 };
 
 export type NLPResponse = {
-  granularity: "word" | "sentence" | "paragraph" | "document" | "error";
   components: {
+    granularity: string;
     text: string;
     type: string;
     score: number;
@@ -51,7 +51,6 @@ export default async function handler(
 
   if (!text || typeof text !== "string" || text.length === 0) {
     res.status(400).json({
-      granularity: "error",
       components: [],
     });
     return;
@@ -62,9 +61,9 @@ export default async function handler(
     .filter((line) => line.length > 0);
 
   const response: NLPResponse = {
-    granularity: "paragraph",
     components: [
       {
+        granularity: "paragraph",
         text: title,
         type: "title",
         score: 1,
@@ -78,6 +77,7 @@ export default async function handler(
 
   // randomly set some paragraphs to be "important" and some to be "unimportant", others to be "neutral"
   const components = content.map((paragraph) => ({
+    granularity: "paragraph",
     text: paragraph,
     type: ["important", "unimportant", "neutral"][
       Math.floor(Math.random() * 3)
