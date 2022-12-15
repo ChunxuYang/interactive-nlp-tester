@@ -73,7 +73,6 @@ export default async function handler(
 
   // randomly insert "question" paragraphs into the content. don't insert them at the beginning or end of the content
   const questionIndex = Math.floor(Math.random() * (content.length - 2)) + 1;
-  content.splice(questionIndex, 0, "What is the meaning of life?");
 
   // randomly set some paragraphs to be "important" and some to be "unimportant", others to be "neutral"
   const components = content.map((paragraph) => ({
@@ -84,6 +83,13 @@ export default async function handler(
     ],
     score: Math.random(),
   }));
+
+  components.splice(questionIndex, 0, {
+    granularity: "paragraph",
+    text: "What is the meaning of life?",
+    type: "question",
+    score: 1,
+  });
 
   response.components.push(...components);
 
